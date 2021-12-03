@@ -1,6 +1,6 @@
 {
   "name": "@narvia/color-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A customizable events calendar widget library by PawanKolhe",
   "main": "dist/bundle.cjs.js",
   "module": "dist/bundle.esm.js",
