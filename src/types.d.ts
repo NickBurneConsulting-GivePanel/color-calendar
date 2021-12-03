@@ -22,6 +22,7 @@ export interface CalendarOptions {
   disableMonthArrowClick? : boolean;
   monthChanged?: (currentDate?: Date, filteredMonthEvents?: EventData[]) => void;
   dateChanged?: (currentDate?: Date, filteredDateEvents?: EventData[]) => void;
+  customDayRender?: (day: Day, hasEvent: boolean, isToday: boolean, isFuture: boolean) => string;
 }
 
 export interface EventData {

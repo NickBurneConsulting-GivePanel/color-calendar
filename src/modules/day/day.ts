@@ -191,7 +191,7 @@ export function generateDays() {
 }
 
 /** Render days */
-export function renderDays() {
+export function renderDays(customDayRender?: (day: Day, hasEvent: boolean, isToday: boolean, isFuture: boolean) => string) {
   let insertCount = 0;
 
   // Filter events data to this month only
@@ -245,17 +245,22 @@ export function renderDays() {
     const isFutureDayInCurrentMonth = this.currentDate.getMonth() === this.today.getMonth() && day.day > this.today.getDate();
     const isFutureDate = isFutureDayInCurrentMonth || isFutureMonth;
 
-    newHTML += `
-      <div class="calendar__day calendar__day-active${isTodayDate ? ' calendar__day-today' : ''}${isFutureDate ? ' calendar__day-future' : ''}${
-      this.eventDayMap[day.day]
-        ? ' calendar__day-event'
-        : ' calendar__day-no-event'
-      }${day.selected ? ' calendar__day-selected' : ''}">
-        <span class="calendar__day-text">${day.day}</span>
-        <div class="calendar__day-bullet"></div>
-        <div class="calendar__day-box"></div>
-      </div>
-    `;
+    if (customDayRender) {
+      newHTML += customDayRender(day, !!this.eventDayMap[day.day], isTodayDate, isFutureDate);
+    } else {
+      newHTML += `
+        <div class="calendar__day calendar__day-active${isTodayDate ? ' calendar__day-today' : ''}${isFutureDate ? ' calendar__day-future' : ''}${
+        this.eventDayMap[day.day]
+          ? ' calendar__day-event'
+          : ' calendar__day-no-event'
+        }${day.selected ? ' calendar__day-selected' : ''}">
+          <span class="calendar__day-text">${day.day}</span>
+          <div class="calendar__day-bullet"></div>
+          <div class="calendar__day-box"></div>
+        </div>
+      `;
+    }
+
     insertCount++;
   });
 

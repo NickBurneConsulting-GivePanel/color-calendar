@@ -133,6 +133,7 @@ export default class Calendar {
   generateDays!: () => void;
   renderDays!: () => void;
   rerenderSelectedDay!: (element: HTMLElement, dayNum: number, storeOldSelected?: boolean) => void;
+  customDayRender?: (day: Day, hasEvent: boolean, isToday: boolean, isFuture: boolean) => string;
   // Events
   getEventsData!: () => any;
   setEventsData!: (events: EventData[]) => number;
@@ -165,6 +166,9 @@ export default class Calendar {
     this.disableMonthArrowClick = options.disableMonthArrowClick ?? false;
     this.monthChanged = options.monthChanged;
     this.dateChanged = options.dateChanged;
+    this.customDayRender = options.customDayRender;
+
+    this.renderDays = day.renderDays.bind(this, this.customDayRender)
 
     /* Initialize State */
     this.weekdays = this.weekdayDisplayTypeOptions[this.weekdayDisplayType] ?? this.weekdayDisplayTypeOptions["short"];
@@ -357,7 +361,6 @@ Calendar.prototype.handleCalendarDayClick = day.handleCalendarDayClick;
 Calendar.prototype.removeOldDaySelection = day.removeOldDaySelection;
 Calendar.prototype.updateCurrentDate = day.updateCurrentDate;
 Calendar.prototype.generateDays = day.generateDays;
-Calendar.prototype.renderDays = day.renderDays;
 Calendar.prototype.rerenderSelectedDay = day.rerenderSelectedDay;
 // Events
 Calendar.prototype.getEventsData = events.getEventsData;
